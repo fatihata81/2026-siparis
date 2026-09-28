@@ -1,0 +1,56 @@
+{
+  "summary": "Backend + frontend payment regression test executed. Core payment reset fix for existing orders #1/#2 verified on edit form, but editing TEMP fixtures exposed another blocking UI regression in related selects during update flow.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "OrderForm (edit mode, LED fields)",
+        "issue": "On TEMP payment fixtures, update flow (change only amount/note, untouched payment) does not return to list; form stays open. Captured state shows payment selected but color select rendered as placeholder, indicating unrelated select value loss in edit mode and blocking submit validation.",
+        "selector": "[data-testid='select-color'], [data-testid='submit-order-button']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Edit existing TEMP order -> change only amount/note -> save",
+        "issue": "Expected PUT+table refresh did not complete in UI runs because edit form remained open; this blocks full persistence verification from UI side even though API-level persistence tests pass.",
+        "affected_selectors": [
+          "[data-testid='edit-button-{order_no}']",
+          "[data-testid='select-payment-type']",
+          "[data-testid='select-color']",
+          "[data-testid='submit-order-button']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_payment_persistence.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Investigate edit-mode select state for non-payment fields (especially color/base related Radix Selects) to prevent unintended empty/placeholder state before submit.",
+    "After fix, rerun full UI persistence matrix: 4 payment types, unrelated update save/reopen, intentional payment change, cancel unsaved change, cross-order stale-state, mobile payment section check.",
+    "Keep scope limited to OrderForm/select handling; do not change unrelated modules."
+  ],
+  "critical_code_review_comments": [
+    "Payment-only hardening exists, but other Select fields still appear vulnerable to empty initialization/state drift in edit mode.",
+    "Edit submit validation depends on color for LED; if color silently drops to placeholder, save path is blocked and appears as payment-persistence failure."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_payment_persistence.py",
+    "/app/test_reports/iteration_2.json"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "55%"
+  },
+  "seed_data_creation": "Created TEMP_Payment_* fixtures via real API during tests; cleaned up created fixture IDs. Also removed stray TEMP_Payment_Repro fixture (order_no=18).",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Confirmed from real UI: order #1 shows Web and #2 shows Havale in edit form and remained stable after async district wait. Payment dropdown options are 4 and non-empty. New order keeps payment placeholder by default; submit without payment blocked; submit with payment works. Blocker starts in edit TEMP fixtures save flow where unrelated select state appears to drop (notably color), causing save flow not to complete.",
+  "rca of the issue": "Reproduction: create LED order with color=Mavi + payment set -> open edit -> do not touch payment, change amount/note, save. Observed form remains open instead of returning to list; captured screen shows select-color placeholder while payment remains selected. Likely same hidden native/Radix empty-event pattern affects other selects through generic handleSelectChange path, not only payment_type. Mitigation: guard against empty native-init updates for vulnerable required selects in edit mode and use functional state updates consistently."
+}

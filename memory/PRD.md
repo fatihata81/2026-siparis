@@ -10,6 +10,8 @@ API adresi frontend `.env` içindeki REACT_APP_BACKEND_URL; veritabanı backend
 `.env` içindeki MONGO_URL ve DB_NAME. Kimlik bilgileri `test_credentials.md` içinde.
 
 ## Güncel kullanıcı talebi — 2026-09-28
+- Yeni öncelik: “siparişi düzenleye girdiğimde, ödeme tipi bilgisi sıfırlanıyor”.
+  Kullanıcı yalnızca ödeme tipi düzeltmesini onayladı; diğer işleyişler değişmeyecek.
 - Aynı 10×10 cm etikette iki ürün için ayrı “Ürün 1” ve “Ürün 2” bölümleri.
 - Her ürünün kendi tür, altlık, renk, yazı ve altlık yazısı gösterilecek.
 - Müşteri, telefon, kargo/adres, ödeme ve toplam tek kez gösterilecek.
@@ -28,6 +30,12 @@ API adresi frontend `.env` içindeki REACT_APP_BACKEND_URL; veritabanı backend
   iki sütunlu sipariş satırları; yazdırma/diğer işlemler görünür kaldı. Başlık
   düğmeleri sarılıyor. Sonner bildirim kutusunun mobil genişliği düzeltildi.
 - Yeni çıktı alanları, uyarılar ve yazdırma düğmelerine data-testid eklendi.
+- Ödeme tipi sıfırlanması düzeltildi (yalnızca `OrderForm.js` uygulama kodu değişti):
+  form açılışında kayıtlı ödeme tipi alınır ve Select her zaman kontrollü string olur.
+  Radix gizli native select'in boş açılış olayları artık kayıtlı seçimleri silemez.
+  Ortak seçim/metin/telefon güncellemeleri önceki state üzerinden birleşir; böylece
+  renk/altlık gibi diğer değerler de korunur. Gerçek il değişikliği hâlâ ilçeyi sıfırlar.
+  Yeni siparişte ödeme otomatik seçilmez; mevcut seçenekler ve iş kuralları değişmedi.
 
 ## Test durumu
 - Önceki oturum: backend kullanıcı CRUD ve giriş testleri başarılı; kullanıcı arayüzü kullanıcı tarafından onaylı.
@@ -48,10 +56,22 @@ API adresi frontend `.env` içindeki REACT_APP_BACKEND_URL; veritabanı backend
 - `yarn build` başarılı. Test siparişleri silindi; yalnızca gerçek #1 ve #2 kaldı.
 - Fiziksel yazıcı/kağıt hizalama kontrolü kullanıcıda.
 - Hiçbir API MOCKED değil.
+- Ödeme düzeltmesi testleri: iteration_2 ilk ödeme kontrolü başarılı ama renk
+  kaybından kaydetme engeli buldu; ortak handler düzeltildi. iteration_3 tüm dört
+  ödeme tipinde gerçek arayüz düzenle–kaydet–yeniden aç, diğer alanların korunması,
+  kasıtlı ödeme değişikliği, iptal, siparişler arası geçiş ve il/ilçe akışını doğruladı.
+- iteration_4 yeni sipariş ödeme placeholder/ödeme olmadan kayıt engeli/seçip
+  oluşturma/yeniden düzenlemede koruma testlerini tamamladı. Bu kapsamda açık hata yok.
+- Yeni sipariş düğmesi için iteration_3'teki HIGH bulgu geçici giriş bildiriminin
+  zorlanmış test tıklamasını yakalamasından kaynaklandı; iteration_4 ile uygulama
+  hatası olmadığı doğrulandı. Testler üst menü tıklamasından önce bildirimi beklemeli.
+- Backend pytest6/6 başarılı (`backend/tests/test_payment_persistence.py`),
+  masaüstü1920×800 ve mobil390×844 ödeme bölümü kontrolleri taşmasız; derleme başarılı.
+- Ödeme testlerinin geçici kayıtları temizlendi. Gerçek sipariş içerikleri değiştirilmedi.
 
 ## Öncelikli işler
 - Güncel talep tamamlandı: Etiket ve boş not düzeltmeleri test agent ile doğrulandı.
-- P0 (önceki, kapsam dışı): Düzenleme formunda ödeme tipi sıfırlanma hatası devam ediyor.
+- P0: Açık ödeme tipi hatası kalmadı; kullanıcı doğrulaması bekleniyor.
 - P1 (önceki): Kullanıcı yönetimi/sütun görünürlüğü için kapsamlı frontend E2E.
 - P1: Kullanıcının fiziksel yazıcıda örnek çıktı kontrolü.
 - P2: Kullanıcı isterse uygulama içi yazdırma önizlemesi.

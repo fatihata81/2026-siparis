@@ -44,7 +44,7 @@ const OrderForm = ({ onSubmit, provinces, countries, loading, editingOrder, onCa
     second_color: "",
     second_customization: "",
     second_base_text: "",
-    payment_type: "",
+    payment_type: editingOrder?.payment_type ?? "",
     amount: "",
     gift_package: false,
     order_note: ""
@@ -86,7 +86,7 @@ const OrderForm = ({ onSubmit, provinces, countries, loading, editingOrder, onCa
         second_color: editingOrder.second_color || "",
         second_customization: editingOrder.second_customization || "",
         second_base_text: editingOrder.second_base_text || "",
-        payment_type: editingOrder.payment_type, // Mevcut değeri olduğu gibi al
+        payment_type: editingOrder.payment_type ?? "",
         amount: editingOrder.amount?.toString() || "",
         gift_package: editingOrder.gift_package || false,
         order_note: editingOrder.order_note || ""
@@ -107,20 +107,26 @@ const OrderForm = ({ onSubmit, provinces, countries, loading, editingOrder, onCa
   };
 
   const handleProvinceChange = (value) => {
-    setFormData({ ...formData, province: value, district: "" });
+    if (!value) return;
+    setFormData((previous) => previous.province === value ? previous : {
+      ...previous, province: value, district: ""
+    });
     fetchDistricts(value);
   };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((previous) => ({
+      ...previous,
       [name]: type === "checkbox" ? checked : value
-    });
+    }));
   };
 
   const handleSelectChange = (name, value) => {
-    setFormData({ ...formData, [name]: value });
+    // Radix's hidden native select may emit an empty initialization event.
+    // These menus have no clear option. Intentional resets happen directly in state.
+    if (!value) return;
+    setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
   const handlePhoneChange = (e) => {
@@ -128,7 +134,7 @@ const OrderForm = ({ onSubmit, provinces, countries, loading, editingOrder, onCa
     if (!value.startsWith("90")) {
       value = "90" + value;
     }
-    setFormData({ ...formData, phone: value });
+    setFormData((previous) => ({ ...previous, phone: value }));
   };
 
   const handleSubmit = (e) => {
@@ -623,13 +629,13 @@ const OrderForm = ({ onSubmit, provinces, countries, loading, editingOrder, onCa
 
             <div>
               <Label htmlFor="payment_type">Ödeme Tipi *</Label>
-              <Select value={formData.payment_type || undefined} onValueChange={(value) => handleSelectChange("payment_type", value)}>
-                <SelectTrigger data-testid="select-payment-type" className="border-orange-200">
+              <Select value={formData.payment_type} onValueChange={(value) => handleSelectChange("payment_type", value)}>
+                <SelectTrigger id="payment_type" data-testid="select-payment-type" className="border-orange-200">
                   <SelectValue placeholder="Ödeme tipi seçin" />
                 </SelectTrigger>
-                <SelectContent>
-                  {PAYMENT_TYPES.map((type) => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                <SelectContent data-testid="payment-type-options">
+                  {PAYMENT_TYPES.map((type, index) => (
+                    <SelectItem key={type} value={type} data-testid={`payment-type-option-${index}`}>{type}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

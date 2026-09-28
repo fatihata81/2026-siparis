@@ -232,10 +232,10 @@ frontend:
         comment: "OrdersTable now uses canViewColumn() to conditionally render table headers and cells based on user permissions."
 
   - task: "Payment type bug fix"
-    implemented: false
-    working: false
+    implemented: true
+    working: true
     file: "/app/frontend/src/components/OrderForm.js"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -245,6 +245,27 @@ frontend:
       - working: false
         agent: "main"
         comment: "Not addressed yet, will investigate after completing authentication system implementation"
+      - working: false
+        agent: "user"
+        comment: "2026-09-28: siparişi düzenleye girdiğimde, ödeme tipi bilgisi sıfırlanıyor; screenshot shows placeholder with saved amount550. Authorized payment fix only."
+      - working: "NA"
+        agent: "main"
+        comment: "Reproduced real order#1 API payment=Web but edit placeholder, native hidden select empty change events recorded. Scoped fix: initialize payment from editingOrder, always controlled string, ignore empty Radix initialization events, functional payment setter. No default forced on new orders. Need regression all4 values/edit unrelated field/save/reopen/switch/cancel/create."
+      - working: false
+        agent: "testing"
+        comment: "iteration_2: backend6/6, existing-order payment stable; TEMP LED edit-save blocked because color resets through generic handler. Full UI matrix incomplete."
+      - working: "NA"
+        agent: "main"
+        comment: "Root fix extended to shared select handler: ignore empty initialization events and functional updater; province ignores empty/same-value events, real province change still clears district. Text/phone inputs use functional updater. Payment stays controlled and initialized from edit. No business rules or other modules changed. Requires completed UI regression retest."
+      - working: true
+        agent: "testing"
+        comment: "iteration_3: all4 UI edit-save-reopen values, unrelated field compare, deliberate change/cancel/switch, province district reset, mobile/desktop and backend6/6 passed. Reported new-order click blocker prevents remaining creation regression."
+      - working: "NA"
+        agent: "main"
+        comment: "Diagnosed new-order report: elementFromPoint at header button center hit login-success toast SVG, not button. After [data-sonner-toast] detaches, header button opens create form correctly and payment starts empty. No navigation code changed. Request focused final creation regression waiting for transient toast or using normal actionability instead of forcing through overlay."
+      - working: true
+        agent: "testing"
+        comment: "iteration_4 closeout: new-create placeholder, missing-payment validation/noPOST, explicit payment POST200 and edit retention PASS. Prior new-order HIGH finding reclassified transient login-toast interception; no application change needed. Combined iteration_3+4 confirms all requested payment flows. Test-created ID deleted200."
 
 metadata:
   created_by: "main_agent"
@@ -254,13 +275,16 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Two-product label and blank gift-note printing"
-  stuck_tasks:
     - "Payment type bug fix"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "main"
+    message: "Payment bug CLOSED after iteration_3+4 agent verification, backend6/6 and responsive screenshots. Runtime edits scoped to OrderForm state/select handling. Temporary payment fixtures cleaned. Prior user-management exhaustive frontend E2E and physical print review remain backlog."
+  - agent: "main"
+    message: "Current payment fix testing requested: only OrderForm payment handling touched. API order#1=Web/#2=Havale; do not modify real orders. Test real edit readonly and temp fixtures for saved changes. Existing admin/admin documented. Check all4 payment types, create empty placeholder/required behavior, deliberate change persists, edit others preserves payment and all other fields, cancel and switch orders, desktop/mobile. No auth changes."
   - agent: "main"
     message: "Final 2026-09-28: Current print task verified by testing agent and subsequent self-tests. Read iteration_1.json, pdf_validation.json, and post_review_verification.json. Fixed mobile design issue reported by tester. Printing unchanged after report except adding valid DOM testIDs to warning messages. Payment edit reset and exhaustive user-management E2E remain prior backlog."
   - agent: "main"
