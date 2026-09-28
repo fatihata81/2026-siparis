@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe8e0 50%, #fff0e6 100%);
+  min-height: 100vh;
+  font-size: 12.8px; /* %20 küçültüldü (16px * 0.8) */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff6b35;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4500;
+}
+
+/* Print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .print-label,
+  .print-label * {
+    visibility: visible;
+  }
+  
+  .print-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10cm;
+    height: 10cm;
+    padding: 0.5cm;
+    background: white;
+  }
+  
+  .print-note,
+  .print-note * {
+    visibility: visible;
+  }
+  
+  .print-note {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 8cm;
+    height: 5cm;
+    background: white;
+  }
+  
+  .print-note .note-card {
+    width: 8cm;
+    height: 5cm;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .print-note .note-content {
+    width: 90%;
+    text-align: center;
+    padding: 1cm;
+  }
+  
+  .print-note .note-text {
+    font-size: 14pt;
+    line-height: 1.6;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}
+
+/* Sipariş notu yazdırma için ayrı sayfa ayarı */
+@media print {
+  @page {
+    size: 8cm 5cm landscape;
+    margin: 0;
+  }
+  
+  /* Label yazdırırken note gizli olsun */
+  .print-label:not(.hidden) ~ .print-note {
+    display: none !important;
+  }
+  
+  /* Note yazdırırken label gizli olsun */
+  .print-note:not(.hidden) ~ .print-label {
+    display: none !important;
+  }
+}
