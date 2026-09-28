@@ -223,7 +223,6 @@ TURKEY_PROVINCES = {
     "Hatay": ["Antakya", "Defne", "Arsuz", "Altınözü", "Belen", "Dörtyol", "Erzin", "Hassa", "İskenderun", "Kırıkhan", "Kumlu", "Payas", "Reyhanlı", "Samandağ", "Yayladağı"],
     "Iğdır": ["Merkez", "Aralık", "Karakoyunlu", "Tuzluca"],
     "Isparta": ["Merkez", "Aksu", "Atabey", "Eğirdir", "Gelendost", "Gönen", "Keçiborlu", "Senirkent", "Sütçüler", "Şarkikaraağaç", "Uluborlu", "Yalvaç", "Yenişarbademli"],
-    "İstanbul": ["Kadıköy", "Beşiktaş", "Şişli", "Beyoğlu", "Üsküdar", "Maltepe", "Kartal", "Pendik", "Ümraniye", "Ataşehir", "Fatih", "Bakırköy", "Küçükçekmece", "Bahçelievler", "Gaziosmanpaşa", "Esenler", "Sultangazi", "Esenyurt", "Avcılar", "Bağcılar", "Başakşehir", "Bayrampaşa", "Eyüpsultan", "Güngören", "Kağıthane", "Sancaktepe", "Sultanbeyli", "Zeytinburnu", "Büyükçekmece", "Çatalca", "Çekmeköy", "Sarıyer", "Silivri", "Şile", "Tuzla", "Beykoz", "Beylikdüzü", "Arnavutköy", "Adalar"],
     "İzmir": ["Konak", "Karşıyaka", "Bornova", "Buca", "Çiğli", "Gaziemir", "Bayraklı", "Balçova", "Narlıdere", "Aliağa", "Bayındır", "Bergama", "Beydağ", "Çeşme", "Dikili", "Foça", "Karaburun", "Kemalpaşa", "Kınık", "Kiraz", "Menderes", "Menemen", "Ödemiş", "Seferihisar", "Selçuk", "Tire", "Torbalı", "Urla", "Güzelbahçe", "Karabağlar"],
     "Kahramanmaraş": ["Dulkadiroğlu", "Onikişubat", "Afşin", "Andırın", "Çağlayancerit", "Ekinözü", "Elbistan", "Göksun", "Nurhak", "Pazarcık", "Türkoğlu"],
     "Karabük": ["Merkez", "Eflani", "Eskipazar", "Ovacık", "Safranbolu", "Yenice"],

@@ -1,90 +1,59 @@
-const PrintLabel = ({ order }) => {
-  if (!order) return null;
+const DetailRow = ({ label, value, testId }) => (
+  <div className="label-row" data-testid={testId}>
+    <span className="label-key">{label}</span>
+    <span className="label-value">{value}</span>
+  </div>
+);
+
+const ProductDetails = ({ order, second = false, numbered = false }) => {
+  const prefix = second ? "second_" : "";
+  const number = second ? 2 : 1;
+  const fields = [
+    ["product_type", "Ürün:"],
+    ["base_selection", "Altlık:"],
+    ["color", "Renk:"],
+    ["customization", "Yazı:"],
+    ["base_text", "Altlık Yzs:"],
+  ];
 
   return (
-    <div className="print-label hidden print:block">
-      <div className="border-2 border-black p-2 h-full flex flex-col justify-between text-xs">
-        <div>
-          <div className="text-center font-bold text-lg mb-2 border-b-2 border-black pb-1">
-            SİPARİŞ #{order.order_no}
-          </div>
-          
-          <div className="space-y-1">
-            <div className="flex">
-              <span className="font-semibold w-20">Müşteri:</span>
-              <span className="flex-1">{order.first_name} {order.last_name}</span>
-            </div>
-            
-            <div className="flex">
-              <span className="font-semibold w-20">Telefon:</span>
-              <span className="flex-1">{order.phone}</span>
-            </div>
-            
-            <div className="border-t border-gray-300 my-1 pt-1">
-              <div className="flex">
-                <span className="font-semibold w-20">Ürün:</span>
-                <span className="flex-1">{order.product_type}</span>
-              </div>
-              
-              {order.base_selection && (
-                <div className="flex">
-                  <span className="font-semibold w-20">Altlık:</span>
-                  <span className="flex-1">{order.base_selection}</span>
-                </div>
-              )}
-              
-              <div className="flex">
-                <span className="font-semibold w-20">Renk:</span>
-                <span className="flex-1">{order.color}</span>
-              </div>
-              
-              {order.customization && (
-                <div className="flex">
-                  <span className="font-semibold w-20">Yazı:</span>
-                  <span className="flex-1 break-words">{order.customization}</span>
-                </div>
-              )}
-              
-              {order.base_text && (
-                <div className="flex">
-                  <span className="font-semibold w-20">Altlık Yzs:</span>
-                  <span className="flex-1 break-words">{order.base_text}</span>
-                </div>
-              )}
-            </div>
-            
-            <div className="border-t border-gray-300 my-1 pt-1">
-              <div className="flex">
-                <span className="font-semibold w-20">Kargo:</span>
-                <span className="flex-1">{order.cargo_company}</span>
-              </div>
-              
-              <div className="flex">
-                <span className="font-semibold w-20">Adres:</span>
-                <span className="flex-1 text-[10px]">{order.province}/{order.district} - {order.address.substring(0, 40)}{order.address.length > 40 ? '...' : ''}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="border-t-2 border-black pt-1 mt-2">
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="font-semibold">Ödeme:</span> {order.payment_type}
-            </div>
-            <div className="text-lg font-bold">
-              {order.amount} ₺
-            </div>
-          </div>
-          {order.gift_package && (
-            <div className="text-center font-semibold mt-1 bg-black text-white px-2">
-              HEDİYE PAKETİ
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <section className="label-section label-product" data-testid={`print-product-${number}`}>
+      {numbered && <div className="label-product-title" data-testid={`print-product-${number}-title`}>Ürün {number}</div>}
+      {fields.map(([key, label]) => order[`${prefix}${key}`] ? (
+        <DetailRow key={key} label={label} value={order[`${prefix}${key}`]}
+          testId={`print-product-${number}-${key.replaceAll("_", "-")}`} />
+      ) : null)}
+    </section>
   );
 };
 
-export default PrintLabel;
+export default function PrintLabel({ order }) {
+  if (!order) return null;
+  const location = [order.is_international && order.country, order.province, order.district].filter(Boolean).join("/");
+
+  return (
+    <div className="print-label" data-testid="print-label">
+      <div className="label-frame" data-print-fit data-min-font="8" data-max-font={order.has_second_product ? "11" : "12"}>
+        <div className="label-details">
+          <div className="label-heading" data-testid="print-order-number">SİPARİŞ #{order.order_no}</div>
+          {order.has_second_product && <div className="label-product-count" data-testid="print-product-count">BU SİPARİŞTE 2 ÜRÜN VAR</div>}
+          <DetailRow label="Müşteri:" value={`${order.first_name} ${order.last_name}`} testId="print-customer" />
+          <DetailRow label="Telefon:" value={order.phone} testId="print-phone" />
+          <ProductDetails order={order} numbered={order.has_second_product} />
+          {order.has_second_product && <ProductDetails order={order} second numbered />}
+          <section className="label-section" data-testid="print-shipping">
+            <DetailRow label="Kargo:" value={order.cargo_company} testId="print-cargo-company" />
+            <DetailRow label="Adres:" value={`${location} - ${order.address || ""}`} testId="print-address" />
+          </section>
+        </div>
+        <footer className="label-footer" data-testid="print-payment-section">
+          <div className="label-payment">
+            <div data-testid="print-payment-type"><strong>Ödeme:</strong> {order.payment_type}</div>
+            <strong className="label-amount" data-testid="print-amount">{order.amount} ₺</strong>
+          </div>
+          {order.gift_package && <div className="label-gift" data-testid="print-gift-package">HEDİYE PAKETİ</div>}
+        </footer>
+      </div>
+    </div>
+  );
+}

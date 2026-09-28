@@ -40,80 +40,9 @@ h1, h2, h3, h4, h5, h6 {
   background: #ff4500;
 }
 
-/* Print styles */
-@media print {
-  body * {
-    visibility: hidden;
+@media (max-width: 600px) {
+  [data-sonner-toaster] {
+    width: calc(100% - var(--mobile-offset-left) - var(--mobile-offset-right)) !important;
   }
-  
-  .print-label,
-  .print-label * {
-    visibility: visible;
-  }
-  
-  .print-label {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 10cm;
-    height: 10cm;
-    padding: 0.5cm;
-    background: white;
-  }
-  
-  .print-note,
-  .print-note * {
-    visibility: visible;
-  }
-  
-  .print-note {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 8cm;
-    height: 5cm;
-    background: white;
-  }
-  
-  .print-note .note-card {
-    width: 8cm;
-    height: 5cm;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .print-note .note-content {
-    width: 90%;
-    text-align: center;
-    padding: 1cm;
-  }
-  
-  .print-note .note-text {
-    font-size: 14pt;
-    line-height: 1.6;
-    color: #333;
-    font-family: 'Inter', sans-serif;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-}
-
-/* Sipariş notu yazdırma için ayrı sayfa ayarı */
-@media print {
-  @page {
-    size: 8cm 5cm landscape;
-    margin: 0;
-  }
-  
-  /* Label yazdırırken note gizli olsun */
-  .print-label:not(.hidden) ~ .print-note {
-    display: none !important;
-  }
-  
-  /* Note yazdırırken label gizli olsun */
-  .print-note:not(.hidden) ~ .print-label {
-    display: none !important;
-  }
+  [data-sonner-toaster] [data-sonner-toast] { width: 100% !important; }
 }

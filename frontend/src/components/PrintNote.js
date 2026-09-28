@@ -1,23 +1,14 @@
-const PrintNote = ({ order }) => {
-  if (!order || !order.order_note) return null;
+export default function PrintNote({ order }) {
+  if (!order?.order_note?.trim()) return null;
 
   return (
-    <div className="print-note hidden print:block">
-      <div 
-        className="note-card"
-        style={{
-          backgroundImage: `url('https://customer-assets.emergentagent.com/job_order-manager-82/artifacts/2hhsjpsw_kart.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <div className="note-content">
-          <p className="note-text">{order.order_note}</p>
+    <div className="print-note" data-testid="print-note">
+      <div className="note-card" data-testid="print-note-card">
+        <img className="note-artwork" src="/assets/gift-note-card.png" alt="" aria-hidden="true" data-testid="print-note-artwork" />
+        <div className="note-content" data-print-fit data-min-font="9" data-max-font="18">
+          <p className="note-text" data-testid="print-note-text">{order.order_note}</p>
         </div>
       </div>
     </div>
   );
-};
-
-export default PrintNote;
+}

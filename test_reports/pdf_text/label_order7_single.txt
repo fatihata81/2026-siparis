@@ -1,0 +1,13 @@
+SİPARİŞ #7
+Müşteri:
+TEST_Print TekUrun
+Telefon:
+905559998877
+Ürün:
+Çiçek
+Kargo:
+Aras
+Adres:
+İstanbul/Üsküdar - TEST kısa adres
+Ödeme: Nakit
+250 ₺

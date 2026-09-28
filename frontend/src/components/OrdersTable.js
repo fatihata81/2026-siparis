@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { Printer, Pencil, Trash2, Search, Filter, Gift, Package2, FileText } from "lucide-react";
 import { Badge } from "./ui/badge";
+import "./orders-table.css";
 
 const STATUS_OPTIONS = [
   "Yeni Sipariş",
@@ -70,7 +71,7 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
   };
 
   const handlePrintNote = (order) => {
-    if (!order.order_note) {
+    if (!order.order_note?.trim()) {
       alert("Bu siparişte not bulunmuyor");
       return;
     }
@@ -148,7 +149,7 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
 
         {/* Table */}
         <div className="overflow-x-auto rounded-lg border border-orange-100">
-          <Table>
+          <Table className="orders-table" data-testid="orders-table">
             <TableHeader>
               <TableRow className="bg-orange-50">
                 {canViewColumn('order_no') && <TableHead className="font-semibold">Sipariş No</TableHead>}
@@ -169,23 +170,23 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
             <TableBody>
               {filteredOrders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={13} className="text-center py-8 text-gray-500">
+                  <TableCell colSpan={13} className="text-center py-8 text-gray-500" data-testid="orders-empty-state">
                     Sipariş bulunamadı
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredOrders.map((order) => (
                   <TableRow key={order.id} className="hover:bg-orange-50/50 transition-colors" data-testid={`order-row-${order.order_no}`}>
-                    {canViewColumn('order_no') && <TableCell className="font-medium">{order.order_no}</TableCell>}
-                    {canViewColumn('date') && <TableCell className="text-sm">{formatDate(order.timestamp)}</TableCell>}
-                    {canViewColumn('name') && <TableCell>{order.first_name} {order.last_name}</TableCell>}
-                    {canViewColumn('phone') && <TableCell className="text-sm">{order.phone}</TableCell>}
-                    {canViewColumn('province') && <TableCell className="text-sm">{order.province}</TableCell>}
-                    <TableCell className="text-sm">{order.product_type}</TableCell>
-                    {canViewColumn('payment_type') && <TableCell className="text-sm">{order.payment_type}</TableCell>}
-                    {canViewColumn('amount') && <TableCell className="font-semibold text-orange-600">{order.amount} ₺</TableCell>}
+                    {canViewColumn('order_no') && <TableCell data-label="Sipariş No" data-testid={`order-number-${order.order_no}`} className="font-medium">{order.order_no}</TableCell>}
+                    {canViewColumn('date') && <TableCell data-label="Tarih" data-testid={`order-date-${order.order_no}`} className="text-sm">{formatDate(order.timestamp)}</TableCell>}
+                    {canViewColumn('name') && <TableCell data-label="Ad Soyad" data-testid={`order-name-${order.order_no}`}>{order.first_name} {order.last_name}</TableCell>}
+                    {canViewColumn('phone') && <TableCell data-label="Telefon" data-testid={`order-phone-${order.order_no}`} className="text-sm">{order.phone}</TableCell>}
+                    {canViewColumn('province') && <TableCell data-label="İl" data-testid={`order-province-${order.order_no}`} className="text-sm">{order.province}</TableCell>}
+                    <TableCell data-label="Ürün" data-testid={`order-product-${order.order_no}`} className="text-sm">{order.product_type}</TableCell>
+                    {canViewColumn('payment_type') && <TableCell data-label="Ödeme" data-testid={`order-payment-${order.order_no}`} className="text-sm">{order.payment_type}</TableCell>}
+                    {canViewColumn('amount') && <TableCell data-label="Tutar" data-testid={`order-amount-${order.order_no}`} className="font-semibold text-orange-600">{order.amount} ₺</TableCell>}
                     {canViewColumn('status') && (
-                      <TableCell>
+                      <TableCell data-label="Durum" className="order-wide-cell" data-testid={`order-status-${order.order_no}`}>
                         <Select value={order.status} onValueChange={(value) => onStatusChange(order.id, value)}>
                           <SelectTrigger className="h-8 text-xs border-0" data-testid={`status-select-${order.order_no}`}>
                             <Badge className={`${STATUS_COLORS[order.status]} text-white border-0`}>
@@ -200,29 +201,31 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
                         </Select>
                       </TableCell>
                     )}
-                    {canViewColumn('cargo_company') && <TableCell className="text-sm">{order.cargo_company}</TableCell>}
+                    {canViewColumn('cargo_company') && <TableCell data-label="Kargo" data-testid={`order-cargo-${order.order_no}`} className="text-sm">{order.cargo_company}</TableCell>}
                     {canViewColumn('features') && (
-                      <TableCell>
+                      <TableCell data-label="Özellik" data-testid={`order-features-${order.order_no}`}>
                         <div className="flex gap-2 justify-center items-center">
                           {order.gift_package && (
-                            <Gift className="w-4 h-4 text-pink-500" title="Hediye Paketi" />
+                            <Gift className="w-4 h-4 text-pink-500" title="Hediye Paketi" data-testid={`order-gift-${order.order_no}`} />
                           )}
                           {order.has_second_product && (
-                            <Package2 className="w-4 h-4 text-blue-500" title="2. Ürün" />
+                            <Package2 className="w-4 h-4 text-blue-500" title="2. Ürün" data-testid={`order-second-product-${order.order_no}`} />
                           )}
                         </div>
                       </TableCell>
                     )}
                     {canViewColumn('order_note') && (
-                      <TableCell>
+                      <TableCell data-label="Sipariş Notu" data-testid={`order-note-${order.order_no}`}>
                         <div className="flex justify-center">
-                          {order.order_note && (
+                          {order.order_note?.trim() && (
                             <Button
                               size="sm"
                               variant="ghost"
                               onClick={() => handlePrintNote(order)}
                               className="text-green-600 hover:text-green-700 hover:bg-green-50"
                               title="Sipariş Notunu Yazdır"
+                              aria-label="Sipariş Notunu Yazdır"
+                              data-testid={`print-note-button-${order.order_no}`}
                             >
                               <FileText className="w-4 h-4" />
                             </Button>
@@ -231,7 +234,7 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
                       </TableCell>
                     )}
                     {canViewColumn('actions') && (
-                      <TableCell>
+                      <TableCell data-label="İşlemler" className="order-wide-cell" data-testid={`order-actions-${order.order_no}`}>
                         <div className="flex gap-2 justify-center">
                           <Button
                             size="sm"
@@ -239,6 +242,8 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
                             onClick={() => onPrint(order)}
                             className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                             data-testid={`print-button-${order.order_no}`}
+                            aria-label="Sipariş Etiketini Yazdır"
+                            title="Sipariş Etiketini Yazdır"
                           >
                             <Printer className="w-4 h-4" />
                           </Button>
@@ -248,6 +253,8 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
                             onClick={() => onEdit(order)}
                             className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
                             data-testid={`edit-button-${order.order_no}`}
+                            aria-label="Siparişi Düzenle"
+                            title="Siparişi Düzenle"
                           >
                             <Pencil className="w-4 h-4" />
                           </Button>
@@ -257,6 +264,8 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
                             onClick={() => onDelete(order.id)}
                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                             data-testid={`delete-button-${order.order_no}`}
+                            aria-label="Siparişi Sil"
+                            title="Siparişi Sil"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -270,7 +279,7 @@ const OrdersTable = ({ orders, onEdit, onDelete, onStatusChange, onPrint, onPrin
           </Table>
         </div>
 
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-4 text-sm text-gray-600" data-testid="orders-count">
           Toplam {filteredOrders.length} sipariş gösteriliyor
         </div>
       </CardContent>

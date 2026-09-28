@@ -1,0 +1,110 @@
+{
+  "/app/test_reports/note_order2.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 29,
+      "text_preview": "SENS İ Z TEK GÜNÜM\nGECM İ YOR"
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 26,
+      "text_preview": "SENSİZ TEK GÜNÜM\nGECMİYOR\n",
+      "image_count": 1
+    }
+  },
+  "/app/test_reports/note_order2_repeat.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 29,
+      "text_preview": "SENS İ Z TEK GÜNÜM\nGECM İ YOR"
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 26,
+      "text_preview": "SENSİZ TEK GÜNÜM\nGECMİYOR\n",
+      "image_count": 1
+    }
+  },
+  "/app/test_reports/label_order2.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 392,
+      "text_preview": "S İ PAR İŞ  #2\nBU S İ PAR İŞ TE 2 ÜRÜN VAR\nMü ş teri: kader ATA\nTelefon: 905556402417\nÜrün 1\nÜrün: LED Lamba\nAltlık: Kalp\nRenk: Günı ş ı ğ ı\nYazı: FRFRFRFRF\nAltlık Yzs: seni seviyorummm SEN İ  SEV İ YORUM\nÜrün 2\nÜrün: LED Lamba\nAltlık: Kalp\nRenk: Kır"
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 368,
+      "text_preview": "SİPARİŞ #2\nBU SİPARİŞTE 2 ÜRÜN VAR\nMüşteri:\nkader ATA\nTelefon:\n905556402417\nÜrün 1\nÜrün:\nLED Lamba\nAltlık:\nKalp\nRenk:\nGünışığı\nYazı:\nFRFRFRFRF\nAltlık Yzs:\nseni seviyorummm SENİ SEVİYORUM\nÜrün 2\nÜrün:\nLED Lamba\nAltlık:\nKalp\nRenk:\nKırmızı\nYazı:\nHNHNHN\n",
+      "image_count": 0
+    }
+  },
+  "/app/test_reports/label_order6.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 471,
+      "text_preview": "S İ PAR İŞ  #6\nBU S İ PAR İŞ TE 2 ÜRÜN VAR\nMü ş teri: TEST_Print IkiUrun\nTelefon: 905551112233\nÜrün 1\nÜrün: LED Lamba\nAltlık: Ah ş ap\nRenk: Beyaz\nYazı: Ürün 1 yazısı\nAltlık Yzs: Altlık 1\nÜrün 2\nÜrün: Papatya Buketi\nAltlık: Metal\nRenk: Kırmızı\nYazı: Ü"
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 456,
+      "text_preview": "SİPARİŞ #6\nBU SİPARİŞTE 2 ÜRÜN VAR\nMüşteri:\nTEST_Print IkiUrun\nTelefon:\n905551112233\nÜrün 1\nÜrün:\nLED Lamba\nAltlık:\nAhşap\nRenk:\nBeyaz\nYazı:\nÜrün 1 yazısı\nAltlık Yzs:\nAltlık 1\nÜrün 2\nÜrün:\nPapatya Buketi\nAltlık:\nMetal\nRenk:\nKırmızı\nYazı:\nÜrün 2 yazısı",
+      "image_count": 0
+    }
+  },
+  "/app/test_reports/label_order7_single.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 151,
+      "text_preview": "S İ PAR İŞ  #7\nMü ş teri: TEST_Print TekUrun\nTelefon: 905559998877\nÜrün: Çiçek\nKargo: Aras\nAdres: İ stanbul/Üsküdar - TEST kısa adres\nÖdeme:Nakit 250 ₺"
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 99.82,
+      "height_mm": 99.82,
+      "text_len": 146,
+      "text_preview": "SİPARİŞ #7\nMüşteri:\nTEST_Print TekUrun\nTelefon:\n905559998877\nÜrün:\nÇiçek\nKargo:\nAras\nAdres:\nİstanbul/Üsküdar - TEST kısa adres\nÖdeme: Nakit\n250 ₺\n",
+      "image_count": 0
+    }
+  },
+  "/app/test_reports/note_order6_image_blocked.pdf": {
+    "exists": true,
+    "pypdf": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 88,
+      "text_preview": "Merhaba\nTürkçe karakter testi:\nğ ü ş iöç İĞ Ü Ş ÖÇ\nUzun not satırı testi için\nburadayız."
+    },
+    "fitz": {
+      "pages": 1,
+      "width_mm": 80.09,
+      "height_mm": 50.12,
+      "text_len": 83,
+      "text_preview": "Merhaba\nTürkçe karakter testi:\nğüşiöç İĞÜŞÖÇ\nUzun not satırı testi için\nburadayız.\n",
+      "image_count": 0
+    }
+  }
+}

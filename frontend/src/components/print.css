@@ -1,0 +1,73 @@
+/* A separate body-level document keeps the hidden order list out of pagination. */
+#order-print-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100mm;
+  max-width: 100%;
+  height: 100mm;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+  background: white;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0;
+}
+#order-print-root.print-job-note { width: 80mm; height: 50mm; }
+#order-print-root * { box-sizing: border-box; }
+.print-label { width: 100%; height: 100%; padding: 2mm; }
+.label-frame {
+  border: 0.45mm solid black;
+  padding: 1.7mm;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 1.25;
+}
+.label-details, .label-footer { flex-shrink: 0; }
+.label-heading {
+  text-align: center;
+  font-size: 1.45em;
+  font-weight: 700;
+  border-bottom: 0.55mm solid black;
+  padding-bottom: 1mm;
+  margin-bottom: 1.2mm;
+}
+.label-product-count { font-weight: 700; text-align: center; margin-bottom: 1.2mm; }
+.label-row { display: grid; grid-template-columns: 18mm minmax(0, 1fr); gap: 1mm; margin-top: 0.35mm; }
+.label-key { font-weight: 600; }
+.label-value { min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.label-section { border-top: 0.2mm solid #aaa; margin-top: 1mm; padding-top: 0.7mm; }
+.label-product-title { font-weight: 700; margin-bottom: 0.5mm; }
+.label-footer { border-top: 0.55mm solid black; margin-top: auto; padding-top: 1mm; }
+.label-payment { display: flex; align-items: center; justify-content: space-between; gap: 2mm; overflow-wrap: anywhere; }
+.label-amount { font-size: 1.4em; white-space: nowrap; }
+.label-gift { text-align: center; font-weight: 700; margin-top: 1mm; }
+.print-note, .note-card { width: 100%; height: 100%; }
+.note-card { position: relative; background: white; }
+.note-artwork { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.note-content { position: absolute; inset: 8mm 9mm; display: flex; align-items: center; font-size: 18px; }
+.note-text { width: 100%; color: black; text-align: center; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.4; }
+
+@media print {
+  html:has(#order-print-root), body:has(#order-print-root) {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    background: white !important;
+  }
+  body:has(#order-print-root) > :not(#order-print-root) { display: none !important; }
+  #order-print-root {
+    position: static;
+    display: block;
+    visibility: visible;
+    max-width: none;
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  #order-print-root * { visibility: visible; }
+}

@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Kullanıcı girişi sistemi ekle. Kullanıcı adı ve şifre ile giriş yapılsın. İlk kullanıcı adı admin parolada admin olsun. Ayarlar kısmında kullanıcı yönetimi olsun, kullanıcı ekle/çıkar, şifre değiştir, yetki düzenle, tablo kolonlarını kullanıcı bazında görünür/gizli yapabilme."
+user_problem_statement: "Güncel: 10x10 cm sipariş etiketinde iki ürün varsa Ürün 1 ve Ürün 2 bölümlerinde ayrı detaylar, ortak müşteri/kargo/ödeme. Boş çıkan 8x5 cm hediye notu çıktısını düzelt. Önceki: Kullanıcı girişi, kullanıcı yönetimi ve kullanıcı bazında kolon görünürlüğü."
 
 backend:
   - task: "User authentication system"
@@ -151,6 +151,26 @@ backend:
         comment: "✅ PASSED: Admin user has all 12 columns visible by default. Created test user with limited visible_columns (5 columns). Updated user visible_columns successfully. Column visibility configuration working correctly."
 
 frontend:
+  - task: "Two-product label and blank gift-note printing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/PrintJob.js, PrintLabel.js, PrintNote.js, print.css, /app/frontend/src/pages/OrderManagement.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "İki ürünlü sipariş etikette tek ürün gösteriyor; hediye notu çıktısı boş sayfa."
+      - working: "NA"
+        agent: "main"
+        comment: "Split product details, body-level print portal, independent valid page sizes, await fonts/image decode, afterprint cleanup, local image not CSS background, content fitting and overflow warning. Requires real PDF/page size/content checks and desktop/mobile print emulation."
+      - working: true
+        agent: "testing"
+        comment: "iteration_1.json: One-page PDF sizes and content passed for two/single-product label and gift note; artwork prints with backgrounds off; text prints even with blocked image; overflow guard and lifecycle passed. Temporary fixtures cleaned. Baseline mobile table overflow reported."
+      - working: true
+        agent: "main"
+        comment: "Addressed report's mobile overflow with responsive labeled rows/header and constrained mobile Sonner container. Final desktop1920/mobile390 OVERFLOW []; sequential note-label-note print calls/cleanup and warning testID passed. Two intermediate afterprint timeout runs were not reproduced in event-traced final runs. No auth changes. All temporary fixtures cleaned; originals #1,#2 remain."
   - task: "Login page"
     implemented: true
     working: true
@@ -234,16 +254,17 @@ metadata:
 
 test_plan:
   current_focus:
-    - "User authentication system"
-    - "User management CRUD API"
-    - "Settings page - User management"
-    - "Dynamic column visibility in OrdersTable"
+    - "Two-product label and blank gift-note printing"
   stuck_tasks:
     - "Payment type bug fix"
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "main"
+    message: "Final 2026-09-28: Current print task verified by testing agent and subsequent self-tests. Read iteration_1.json, pdf_validation.json, and post_review_verification.json. Fixed mobile design issue reported by tester. Printing unchanged after report except adding valid DOM testIDs to warning messages. Payment edit reset and exhaustive user-management E2E remain prior backlog."
+  - agent: "main"
+    message: "2026-09-28: Test current print changes only; payment edit bug/auth E2E remain backlog. Credentials memory/test_credentials.md. Existing #2 has two products + note, #1 single product + note. Do not modify real content; label printing changes status by existing behavior, prefer own temporary fixture. Intercept window.print to count calls, emulate print, PDF prefer_css_page_size=True and print_background=False: exact one page 100x100mm/80x50mm, complete visible content. Dispatch afterprint for cleanup and test alternating/repeat prints. Test long text, missing optional/second fields, long nonbreaking text, empty note; do not truncate or generate blank pages."
   - agent: "main"
     message: "User authentication and management system implemented. Backend has /api/auth/login and /api/users CRUD endpoints. Frontend has Login page, Settings with UserManagement component, and column visibility based on user permissions. Please test: 1) Login with admin/admin, 2) Create new user with limited column visibility, 3) Verify column visibility works correctly, 4) Test user CRUD operations."
   - agent: "testing"

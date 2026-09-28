@@ -1,0 +1,37 @@
+SİPARİŞ #6
+BU SİPARİŞTE 2 ÜRÜN VAR
+Müşteri:
+TEST_Print IkiUrun
+Telefon:
+905551112233
+Ürün 1
+Ürün:
+LED Lamba
+Altlık:
+Ahşap
+Renk:
+Beyaz
+Yazı:
+Ürün 1 yazısı
+Altlık Yzs:
+Altlık 1
+Ürün 2
+Ürün:
+Papatya Buketi
+Altlık:
+Metal
+Renk:
+Kırmızı
+Yazı:
+Ürün 2 yazısı
+Altlık Yzs:
+Altlık 2
+Kargo:
+DHL
+Adres:
+İstanbul/Kadıköy - TEST Mahallesi Uzun Sokak No:123
+Daire:45 Kat:6 Blok:B İstanbul Türkiye Ayrıntılı adres satırı
+yazdırma testi
+Ödeme: Havale
+1299.9 ₺
+HEDİYE PAKETİ

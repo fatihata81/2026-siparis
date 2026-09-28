@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-28",
+  "agent_report": "/app/test_reports/iteration_1.json",
+  "reviewed_test_changes": "Only test scripts, fixtures and PDF reports; no application changes by testing agent.",
+  "post_report_fixes": [
+    "Responsive order table and header, preserving print controls and column permissions",
+    "Constrained mobile Sonner container to remove horizontal overflow",
+    "Valid DOM data-testid on print warning messages"
+  ],
+  "self_test_results": {
+    "desktop_1920x800_overflow": [],
+    "mobile_390x844_overflow_with_long_unbroken_content": [],
+    "note_label_note_sequence": "PASS: one print per request; afterprint removes portal each time",
+    "note_dimensions_css_pixels": [302.359375, 188.96875],
+    "label_dimensions_css_pixels": [377.9375, 377.9375],
+    "two_product_headings": "PASS",
+    "multiline_turkish_note": "PASS",
+    "overflow_error_testid_and_prevent_blank_print": "PASS",
+    "whitespace_note_no_button": "PASS",
+    "temporary_orders_remaining": 0,
+    "original_orders_remaining": [2, 1]
+  },
+  "diagnostic_note": "Two intermediate afterprint self-test waits timed out. No proven code cause; no auth/StrictMode modifications. Fresh event-traced single test and full note-label-note sequence passed. Investigate browser events if user reports recurrence.",
+  "not_tested": ["Physical printer and actual paper alignment"],
+  "prior_out_of_scope_issue": "Payment type resets in edit form; not changed in this task."
+}

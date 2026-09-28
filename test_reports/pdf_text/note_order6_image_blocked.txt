@@ -1,0 +1,5 @@
+Merhaba
+Türkçe karakter testi:
+ğüşiöç İĞÜŞÖÇ
+Uzun not satırı testi için
+buradayız.
